@@ -17,7 +17,12 @@ def create_app() -> Flask:
 
     # Basic configuration
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY") or secrets.token_hex(32)
-    database_url = os.getenv("DATABASE_URL", "sqlite:///blog.db")
+    
+    # Use absolute path for SQLite database to function correctly in all environments
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    default_db_path = f"sqlite:///{os.path.join(basedir, 'blog.db')}"
+    
+    database_url = os.getenv("DATABASE_URL", default_db_path)
     if database_url.startswith("postgres://"):
         database_url = database_url.replace("postgres://", "postgresql://", 1)
     app.config["SQLALCHEMY_DATABASE_URI"] = database_url

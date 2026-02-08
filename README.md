@@ -1,132 +1,130 @@
 # Blog Application
 
-A modern blog platform with a Flask REST API backend and React + TypeScript frontend using shadcn/ui components.
+A modern, production-ready blog platform featuring a robust Flask REST API backend and a high-performance React + TypeScript frontend. Designed with a sleek, minimalist aesthetic inspired by 404media, featuring a custom violet theme and focusing on readability.
 
-## Features
+![Blog Application Screenshot](https://via.placeholder.com/800x450?text=Blog+Application+Preview)
 
-- 📝 Create, edit, and publish blog posts with Markdown support
-- 🎨 Modern UI with shadcn/ui components and Tailwind CSS
-- 🔄 Draft/publish workflow
-- 🎯 Type-safe API client with TypeScript
-- 📱 Responsive design
+## ✨ Key Features
 
-## Project Structure
+- **✍️ Markdown Editor**: Rich text editing experience with live preview, word count, and formatting toolbar.
+- **🎨 Modern Aesthetic**:
+  - Custom **Violet** theme using **shadcn/ui** components.
+  - **Dark Mode** support with seamless toggling.
+  - **"404media" inspired** clean typography and layout.
+- **🔍 SEO Optimized**: Dynamic metadata (title, description, OG tags) for every page using native React metadata API.
+- **📱 Responsive**: Fully responsive design that looks great on mobile, tablet, and desktop.
+- **🔒 Secure Authentication**: Robust user authentication system with secure session management.
+- **⚡ Performance**:
+  - Code-splitting with `React.lazy` and `Suspense`.
+  - Optimized asset loading.
+  - Fast backend responses with SQLAlchemy performance tuning.
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework**: React 19 + TypeScript + Vite
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Icons**: Lucide React
+- **Notifications**: Sonner (Toast notifications)
+- **Routing**: React Router DOM (v6)
+- **State Management**: Context API
+- **Utilities**: date-fns (Date formatting), clsx/tailwind-merge
+
+### Backend
+- **Framework**: Flask (Python)
+- **ORM**: SQLAlchemy
+- **Database**: PostgreSQL (Production) / SQLite (Development)
+- **Authentication**: Flask-Login + Bcrypt
+- **API**: RESTful architecture
+
+## 📂 Project Structure
 
 ```
 blogs/
-├── blog-api/          # Flask backend API
+├── blog-api/          # Flask Backend
 │   ├── app.py         # Application factory
-│   ├── models.py      # SQLAlchemy models
+│   ├── auth.py        # Authentication routes
+│   ├── models.py      # Database models
 │   ├── routes.py      # API endpoints
-│   └── requirements.txt
-├── src/               # React frontend
-│   ├── components/    # UI components (shadcn/ui)
-│   ├── lib/          # API client and utilities
-│   └── pages/        # Page components
+│   ├── requirements.txt
+│   └── DEPLOYMENT.md  # Detailed deployment guide
+├── src/               # React Frontend
+│   ├── components/    # Reusable UI components
+│   │   ├── posts/     # Post-related components
+│   │   └── ui/        # shadcn/ui primitives
+│   ├── contexts/      # React Context (Auth, Theme)
+│   ├── lib/           # Utilities & API client
+│   └── pages/         # Application pages
 └── package.json
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Backend Setup
 
-1. Navigate to the backend directory:
+1. **Navigate to backend:**
    ```bash
    cd blog-api
    ```
 
-2. Create and activate a virtual environment:
+2. **Set up Virtual Environment:**
    ```bash
    python3 -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   source .venv/bin/activate  # Windows: .venv\Scripts\activate
    ```
 
-3. Install dependencies:
+3. **Install Dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. (Optional) Configure environment variables:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your preferred settings
-   ```
-
-5. Run the development server:
+4. **Run Server:**
    ```bash
    python app.py
    ```
-
-   The API will be available at `http://localhost:5000/api`
+   API runs at `http://localhost:5000/api`
 
 ### Frontend Setup
 
-1. Install dependencies:
+1. **Install Dependencies:**
    ```bash
    npm install
    ```
 
-2. Start the development server:
+2. **Configure Environment:**
+   Create `.env.local`:
+   ```env
+   VITE_API_BASE=http://localhost:5000/api
+   ```
+
+3. **Start Development Server:**
    ```bash
    npm run dev
    ```
+   App runs at `http://localhost:5173`
 
-   The frontend will be available at `http://localhost:5173`
+## 🌍 Deployment
 
-## API Documentation
-
-See [blog-api/README.md](blog-api/README.md) for detailed API documentation.
-
-## Tech Stack
-
-### Backend
-- **Flask** - Python web framework
-- **SQLAlchemy** - ORM for database operations
-- **SQLite** - Development database (easily switchable to PostgreSQL/MySQL)
-- **Flask-CORS** - Cross-origin resource sharing
-
-### Frontend
-- **React 19** - UI library with React Compiler
-- **TypeScript** - Type-safe JavaScript
-- **Vite** - Build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework
-- **shadcn/ui** - Accessible component library
-- **React Router** - Client-side routing
-- **react-markdown** - Markdown rendering with GFM support
-
-## Development
-
-- **Backend linting**: (TBD - add flake8/black)
-- **Frontend linting**: `npm run lint`
-- **Build for production**: `npm run build`
-- **Preview production build**: `npm run preview`
-
-## Deployment
+### Backend (PythonAnywhere)
+**Recommended for Free Hosting (No Credit Card)**
+The backend is optimized for deployment on PythonAnywhere's free tier.
+- Supports persistent SQLite database.
+- Easy setup with `wsgi.py`.
+- **See [blog-api/DEPLOYMENT_PYTHONANYWHERE.md](blog-api/DEPLOYMENT_PYTHONANYWHERE.md) for step-by-step instructions.**
 
 ### Backend (Render)
+**Alternative (Requires Credit Card for Verification)**
+Configured for zero-config deployment on Render.
+- Includes `render.yaml` for infrastructure-as-code.
+- Auto-provisions PostgreSQL database.
+- See **[blog-api/DEPLOYMENT.md](blog-api/DEPLOYMENT.md)** for full instructions.
 
-This project is configured for easy deployment to Render with PostgreSQL.
-
-📖 **See [blog-api/DEPLOYMENT.md](blog-api/DEPLOYMENT.md) for complete deployment instructions.**
-
-Quick summary:
-1. Push your code to GitHub
-2. Connect repository to Render
-3. Render auto-detects `render.yaml` configuration
-4. PostgreSQL database is automatically provisioned
-5. Your API is live at `https://your-app.onrender.com`
-
-### Frontend (GitHub Pages)
-
-Deploy the React frontend to GitHub Pages:
-
+### Frontend
+Built for static hosting (Vercel, Netlify, GitHub Pages).
 ```bash
 npm run build
-# Deploy the dist/ folder to gh-pages branch
 ```
+Deploy the `dist/` folder.
 
-Or use GitHub Actions for automatic deployment on every push.
-
-## License
-
-(Add your license information here)
+## 📄 License
+MIT License. Free to use and modify.
