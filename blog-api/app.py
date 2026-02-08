@@ -23,8 +23,7 @@ def create_app() -> Flask:
     default_db_path = f"sqlite:///{os.path.join(basedir, 'blog.db')}"
     
     database_url = os.getenv("DATABASE_URL", default_db_path)
-    if database_url.startswith("postgres://"):
-        database_url = database_url.replace("postgres://", "postgresql://", 1)
+    # PostgreSQL handling removed as per request
     app.config["SQLALCHEMY_DATABASE_URI"] = database_url
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 

@@ -33,7 +33,7 @@ A modern, production-ready blog platform featuring a robust Flask REST API backe
 ### Backend
 - **Framework**: Flask (Python)
 - **ORM**: SQLAlchemy
-- **Database**: PostgreSQL (Production) / SQLite (Development)
+- **Database**: SQLite (Development & Production)
 - **Authentication**: Flask-Login + Bcrypt
 - **API**: RESTful architecture
 
@@ -111,13 +111,6 @@ The backend is optimized for deployment on PythonAnywhere's free tier.
 - Supports persistent SQLite database.
 - Easy setup with `wsgi.py`.
 - **See [blog-api/DEPLOYMENT_PYTHONANYWHERE.md](blog-api/DEPLOYMENT_PYTHONANYWHERE.md) for step-by-step instructions.**
-
-### Backend (Render)
-**Alternative (Requires Credit Card for Verification)**
-Configured for zero-config deployment on Render.
-- Includes `render.yaml` for infrastructure-as-code.
-- Auto-provisions PostgreSQL database.
-- See **[blog-api/DEPLOYMENT.md](blog-api/DEPLOYMENT.md)** for full instructions.
 
 ### Frontend
 Built for static hosting (Vercel, Netlify, GitHub Pages).
