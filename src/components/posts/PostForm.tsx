@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
+import type { Components } from "react-markdown";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -50,6 +51,16 @@ function slugify(input: string) {
     .replace(/^-+|-+$/g, "");
 }
 
+// Memoize plugins outside component to prevent re-creation on every render
+const REMARK_PLUGINS = [remarkGfm, remarkBreaks];
+
+// Memoize components outside component
+const MARKDOWN_COMPONENTS: Components = {
+  h1: ({ node, ...props }) => <h1 className="text-3xl font-bold mb-4 mt-6" {...props} />,
+  h2: ({ node, ...props }) => <h2 className="text-2xl font-bold mb-3 mt-5" {...props} />,
+  h3: ({ node, ...props }) => <h3 className="text-xl font-bold mb-2 mt-4" {...props} />,
+};
+
 export default function PostForm({
   mode = "create",
   initial,
@@ -70,6 +81,9 @@ export default function PostForm({
   const [activeTab, setActiveTab] = useState("write");
   const [localSubmitting, setLocalSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Use ref instead of document.querySelector
+  const contentTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Keep form in sync if initial changes (e.g., when loading edit data)
   useEffect(() => {
@@ -124,9 +138,7 @@ export default function PostForm({
     after: string = "",
     defaultText: string = "",
   ) => {
-    const textarea = document.querySelector(
-      "textarea[name='content']",
-    ) as HTMLTextAreaElement;
+    const textarea = contentTextareaRef.current;
     if (!textarea) return;
 
     const start = textarea.selectionStart;
@@ -360,6 +372,7 @@ export default function PostForm({
                   </Button>
                 </div>
                 <Textarea
+                  ref={contentTextareaRef}
                   name="content"
                   value={values.content}
                   onChange={(e) =>
@@ -381,12 +394,8 @@ export default function PostForm({
                 <CardContent className="prose max-w-none pt-6 dark:prose-invert">
                   {values.content ? (
                     <ReactMarkdown
-                      remarkPlugins={[remarkGfm, remarkBreaks]}
-                      components={{
-                        h1: ({ node, ...props }) => <h1 className="text-3xl font-bold mb-4 mt-6" {...props} />,
-                        h2: ({ node, ...props }) => <h2 className="text-2xl font-bold mb-3 mt-5" {...props} />,
-                        h3: ({ node, ...props }) => <h3 className="text-xl font-bold mb-2 mt-4" {...props} />,
-                      }}
+                      remarkPlugins={REMARK_PLUGINS}
+                      components={MARKDOWN_COMPONENTS}
                     >
                       {values.content}
                     </ReactMarkdown>

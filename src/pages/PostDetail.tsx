@@ -6,7 +6,6 @@ import type { Post } from "@/lib/api";
 import getErrorMessage from "@/lib/errors";
 import { useAuth } from "@/contexts/AuthContext";
 
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -19,6 +18,9 @@ import { ArrowLeft } from "lucide-react";
 import Seo from "@/components/Seo";
 
 import { formatDate } from "@/lib/date";
+
+// Memoize plugins outside the component to avoid recreating on every render
+const REMARK_PLUGINS = [remarkGfm, remarkBreaks];
 
 export default function PostDetail() {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ export default function PostDetail() {
       try {
         const data = await getPost(slug);
         if (!cancelled) setPost(data);
-      } catch (e: any) {
+      } catch (e: unknown) {
         if (!cancelled) setError(getErrorMessage(e, "Failed to load post"));
       } finally {
         if (!cancelled) setLoading(false);
@@ -95,7 +97,10 @@ export default function PostDetail() {
           <header className="mb-10 not-prose">
             <div className="flex flex-wrap items-center gap-2 mb-6">
               {!post.published && (
-                <Badge variant="secondary" className="bg-muted text-muted-foreground hover:bg-muted">
+                <Badge
+                  variant="secondary"
+                  className="bg-muted text-muted-foreground hover:bg-muted"
+                >
                   Draft
                 </Badge>
               )}
@@ -123,7 +128,10 @@ export default function PostDetail() {
                 </div>
                 <div className="leading-none">
                   <p className="font-bold text-foreground">
-                    <Link to={`/users/${post.author?.username}`} className="hover:text-primary transition-colors">
+                    <Link
+                      to={`/users/${post.author?.username}`}
+                      className="hover:text-primary transition-colors"
+                    >
                       {post.author?.username}
                     </Link>
                   </p>
@@ -139,7 +147,9 @@ export default function PostDetail() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => navigate(`/posts/${post.slug}/edit`, { replace: true })}
+                  onClick={() =>
+                    navigate(`/posts/${post.slug}/edit`, { replace: true })
+                  }
                 >
                   Edit Post
                 </Button>
@@ -149,7 +159,7 @@ export default function PostDetail() {
 
           {/* Content Section */}
           <div className="prose-xl prose-headings:font-bold prose-a:text-primary prose-img:rounded-xl leading-relaxed">
-            <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+            <ReactMarkdown remarkPlugins={REMARK_PLUGINS}>
               {post.content}
             </ReactMarkdown>
           </div>
@@ -157,7 +167,9 @@ export default function PostDetail() {
       ) : (
         <div className="text-center py-20">
           <h2 className="text-2xl font-bold mb-2">Post not found</h2>
-          <p className="text-muted-foreground">The post you are looking for does not exist or has been removed.</p>
+          <p className="text-muted-foreground">
+            The post you are looking for does not exist or has been removed.
+          </p>
         </div>
       )}
     </div>

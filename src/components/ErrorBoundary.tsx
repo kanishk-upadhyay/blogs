@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import { Component, type ErrorInfo, type ReactNode } from "react";
 import { AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -48,7 +48,7 @@ class ErrorBoundary extends Component<Props, State> {
                         </Button>
                         <Button onClick={this.handleReload}>Reload Page</Button>
                     </div>
-                    {process.env.NODE_ENV === "development" && this.state.error && (
+                    {import.meta.env.DEV && this.state.error && (
                         <div className="mt-8 max-w-lg overflow-auto rounded bg-muted p-4 text-left font-mono text-xs text-muted-foreground">
                             {this.state.error.toString()}
                         </div>

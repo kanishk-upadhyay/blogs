@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { getPosts } from "@/lib/api";
@@ -35,19 +35,7 @@ export default function PostsList() {
       try {
         // Always fetch only published posts as requested
         const data = await getPosts(true);
-
-        // Client-side search filtering using RR hook
-        const query = searchParams.get("search")?.toLowerCase() || "";
-
-        const filtered = query
-          ? data.filter(p =>
-            p.title.toLowerCase().includes(query) ||
-            p.excerpt?.toLowerCase().includes(query) ||
-            p.author?.username.toLowerCase().includes(query)
-          )
-          : data;
-
-        setPosts(filtered);
+        setPosts(data);
       } catch (e: any) {
         const msg = getErrorMessage(e, "Failed to load posts");
         setError(msg);
@@ -58,6 +46,19 @@ export default function PostsList() {
     }
     loadPosts();
   }, [searchParams]);
+
+  // Memoize filtered posts to prevent recalculation on every render
+  const filteredPosts = useMemo(() => {
+    const query = searchParams.get("search")?.toLowerCase() || "";
+
+    if (!query) return posts;
+
+    return posts.filter(p =>
+      p.title.toLowerCase().includes(query) ||
+      p.excerpt?.toLowerCase().includes(query) ||
+      p.author?.username.toLowerCase().includes(query)
+    );
+  }, [posts, searchParams]);
 
   const showCTA = !user && !searchParams.get("search");
 
@@ -76,7 +77,7 @@ export default function PostsList() {
 
           {loadingList ? (
             <PostsListSkeleton />
-          ) : posts.length === 0 ? (
+          ) : filteredPosts.length === 0 ? (
             <PostsListEmptyState />
           ) : (
             <div className="space-y-6">
@@ -84,7 +85,7 @@ export default function PostsList() {
                 <h2 className="text-2xl font-bold tracking-tight">Latest Writings</h2>
               </div>
               <ul className="grid gap-4">
-                {posts.map((p) => (
+                {filteredPosts.map((p) => (
                   <li key={p.id}>
                     <BlogCard
                       title={p.title}
