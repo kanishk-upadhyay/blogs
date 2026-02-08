@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: blog-api
+    env: python
+    region: oregon  # Choose closest to your users: oregon, frankfurt, singapore, etc.
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn "app:create_app()" --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SECRET_KEY
+        generateValue: true  # Render auto-generates a secure key
+      - key: DATABASE_URL
+        fromDatabase:
+          name: blog-db
+          property: connectionString
+      - key: FLASK_ENV
+        value: production
+      - key: CORS_ORIGINS
+        value: https://yourusername.github.io,http://localhost:5173  # Update with your actual frontend URL
+
+databases:
+  - name: blog-db
+    databaseName: blog_production
+    plan: free
+    ipAllowList: []  # Allow connections from anywhere (needed for Render)

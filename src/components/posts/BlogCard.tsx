@@ -1,0 +1,45 @@
+import { formatDate } from "@/lib/date";
+
+interface BlogCardProps {
+    title: string;
+    date: string | number | Date;
+    description?: string;
+    author?: string;
+    onClick?: () => void;
+}
+
+const BlogCard = ({ title, date, description, author, onClick }: BlogCardProps) => {
+    return (
+        <div
+            className="w-full p-4 space-y-1 group hover:cursor-pointer"
+            onClick={onClick}
+        >
+            <div className="flex gap-1 items-end relative">
+                <div className="md:text-2xl text-xl font-serif whitespace-nowrap dark:text-neutral-100 text-neutral-700 group-hover:text-primary dark:group-hover:text-primary transition-all duration-500 ease-out">
+                    {title}
+                </div>
+                <span className="flex-1 border-b-[0.5px] border-dashed dark:border-neutral-600 border-neutral-400 group-hover:border-primary dark:group-hover:border-primary mb-[6px] min-w-[20px]"></span>
+                <div className="dark:text-neutral-400 text-neutral-500 whitespace-nowrap uppercase group-hover:text-primary dark:group-hover:text-primary font-mono md:text-base text-xs">
+                    {formatDate(date)}
+                </div>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+                {author && (
+                    <span className="dark:text-neutral-500 text-neutral-400 font-mono">
+                        @{author}
+                    </span>
+                )}
+                {description && author && (
+                    <span className="dark:text-neutral-600 text-neutral-300">•</span>
+                )}
+                {description && (
+                    <div className="dark:text-neutral-400 text-neutral-500 group-hover:text-primary dark:group-hover:text-primary line-clamp-1">
+                        {description}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default BlogCard;
