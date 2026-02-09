@@ -60,10 +60,9 @@ project_home = '/home/yourusername/blogs/blog-api'
 if project_home not in sys.path:
     sys.path = [project_home] + sys.path
 
-# activate virtualenv
-activate_this = '/home/yourusername/blogs/blog-api/.venv/bin/activate_this.py'
-with open(activate_this) as f:
-    exec(f.read(), dict(__file__=activate_this))
+# import flask app but need to call it "application" for WSGI to work
+from wsgi import app as application
+```
 
 # import flask app but need to call it "application" for WSGI to work
 from wsgi import app as application
@@ -71,15 +70,19 @@ from wsgi import app as application
 
 > **IMPORTANT**: Replace `yourusername` with your actual PythonAnywhere username!
 
-4.  Click **Save**.
-
-### 6. Configure Virtual Environment Path
+### 7. Configure Virtual Environment Path
 1.  Back on the **Web** tab, scroll to the **Virtualenv** section.
 2.  Enter the path to your virtual environment:
     `/home/yourusername/blogs/blog-api/.venv`
     *(Replace `yourusername` with your actual username)*.
 
-### 7. Reload and Visit
+### 8. essential: Configure Source Code Path
+1.  On the **Web** tab, scroll to the **Code** section (top).
+2.  **Source code**: Set this to `/home/yourusername/blogs/blog-api`
+3.  **Working directory**: Set this to `/home/yourusername/blogs/blog-api`
+    *(Ensure these point to the folder containing `app.py`, NOT the `.venv` folder!)*
+
+### 9. Reload and Visit
 1.  Scroll to the top of the **Web** tab.
 2.  Click the big green **Reload** button.
 3.  Visit your site at `https://yourusername.pythonanywhere.com/api/health`.

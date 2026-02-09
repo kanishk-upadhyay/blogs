@@ -38,7 +38,7 @@ const API_BASE = import.meta.env.VITE_API_BASE ?? "http://localhost:5000/api";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
-    credentials: 'include',  // Include cookies for authentication
+    credentials: "include", // Include cookies for authentication
     headers: {
       "Content-Type": "application/json",
       ...(init?.headers ?? {}),
@@ -69,8 +69,8 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
       typeof data === "string"
         ? data
         : data?.message ||
-        data?.error ||
-        `Request failed (${res.status} ${res.statusText})`;
+          data?.error ||
+          `Request failed (${res.status} ${res.statusText})`;
     throw new Error(message);
   }
 
@@ -179,7 +179,11 @@ export async function register(
 /**
  * Login user
  */
-export async function login(username: string, password: string, remember?: boolean): Promise<User> {
+export async function login(
+  username: string,
+  password: string,
+  remember?: boolean,
+): Promise<User> {
   return request<User>("/auth/login", {
     method: "POST",
     body: JSON.stringify({ username, password, remember: remember ?? false }),

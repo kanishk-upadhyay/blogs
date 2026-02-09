@@ -49,6 +49,9 @@ def list_posts():
             # Anonymous users can only see published posts, ignore 'published=false'
             query = query.filter_by(published=True)
 
+    # Eager load author to prevent N+1 query problem
+    query = query.options(joinedload(Post.author))
+    
     posts = query.order_by(desc(Post.published_at), desc(Post.created_at)).all()
     return jsonify([p.to_dict() for p in posts])
 
