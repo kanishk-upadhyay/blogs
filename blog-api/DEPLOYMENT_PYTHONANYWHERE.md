@@ -83,6 +83,38 @@ from wsgi import app as application
 2.  Click the big green **Reload** button.
 3.  Visit your site at `https://yourusername.pythonanywhere.com/api/health`.
 
+### Troubleshooting: ModuleNotFoundError
+If you see `ModuleNotFoundError: No module named 'dotenv'` or `flask_cors`, it means your virtual environment doesn't match the Python version your Web App is running.
+
+**1. Check Python Version**
+In your Bash console, run:
+```bash
+python --version
+```
+It **MUST** match the version in your **Web** tab (e.g., Python 3.10).
+
+**2. Reinstall Dependencies Explicitly**
+Run these commands to force installation into the correct environment:
+```bash
+# Deactivate current environment
+deactivate
+
+# Delete old broken environment
+rm -rf .venv
+
+# Create new environment with Python 3.10
+python3.10 -m venv .venv
+
+# Install dependencies using the FULL path to ensure they go into the venv
+.venv/bin/pip install -r requirements.txt
+```
+
+**3. Verify Installation**
+```bash
+.venv/bin/pip list
+```
+You should see `flask`, `flask-cors`, and `python-dotenv`.
+
 ---
 
 ## Validating Deployment
