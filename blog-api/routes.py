@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from flask import Blueprint, abort, jsonify, request
 from flask_login import current_user, login_required
 from sqlalchemy import desc
+from sqlalchemy.orm import joinedload
 
 from database import db
 from models import Post
