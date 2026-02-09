@@ -11,15 +11,15 @@ interface BlogCardProps {
 const BlogCard = ({ title, date, description, author, onClick }: BlogCardProps) => {
     return (
         <div
-            className="w-full p-4 space-y-1 group hover:cursor-pointer"
+            className="w-full p-4 space-y-2 group hover:cursor-pointer"
             onClick={onClick}
         >
-            <div className="flex gap-1 items-end relative">
-                <div className="md:text-2xl text-xl font-serif whitespace-nowrap dark:text-neutral-100 text-neutral-700 group-hover:text-primary dark:group-hover:text-primary transition-all duration-500 ease-out">
+            <div className="flex flex-col md:flex-row md:items-end md:gap-1 relative">
+                <div className="text-xl md:text-2xl font-serif dark:text-neutral-100 text-neutral-700 group-hover:text-primary dark:group-hover:text-primary transition-all duration-500 ease-out leading-tight">
                     {title}
                 </div>
-                <span className="flex-1 border-b-[0.5px] border-dashed dark:border-neutral-600 border-neutral-400 group-hover:border-primary dark:group-hover:border-primary mb-[6px] min-w-[20px]"></span>
-                <div className="dark:text-neutral-400 text-neutral-500 whitespace-nowrap uppercase group-hover:text-primary dark:group-hover:text-primary font-mono md:text-base text-xs">
+                <span className="hidden md:block flex-1 border-b-[0.5px] border-dashed dark:border-neutral-600 border-neutral-400 group-hover:border-primary dark:group-hover:border-primary mb-[6px] min-w-[20px]"></span>
+                <div className="mt-1 md:mt-0 dark:text-neutral-400 text-neutral-500 md:whitespace-nowrap uppercase group-hover:text-primary dark:group-hover:text-primary font-mono text-xs md:text-base">
                     {formatDate(date)}
                 </div>
             </div>
@@ -33,7 +33,7 @@ const BlogCard = ({ title, date, description, author, onClick }: BlogCardProps) 
                     <span className="dark:text-neutral-600 text-neutral-300">•</span>
                 )}
                 {description && (
-                    <div className="dark:text-neutral-400 text-neutral-500 group-hover:text-primary dark:group-hover:text-primary line-clamp-1">
+                    <div className="dark:text-neutral-400 text-neutral-500 group-hover:text-primary dark:group-hover:text-primary line-clamp-2 md:line-clamp-1">
                         {description}
                     </div>
                 )}

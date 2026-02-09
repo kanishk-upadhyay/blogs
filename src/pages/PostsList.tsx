@@ -65,7 +65,11 @@ export default function PostsList() {
   return (
     <div className="space-y-8">
       <Seo title="Home" description="Read the latest stories and ideas from our community." />
-      {showCTA && <PostsListHeader />}
+      {showCTA && (
+        <div className="mx-auto max-w-4xl">
+          <PostsListHeader />
+        </div>
+      )}
 
       <Card className="mx-auto max-w-4xl border-none shadow-none bg-transparent">
         <CardContent className="pt-0 px-0">

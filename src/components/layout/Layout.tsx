@@ -34,11 +34,11 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="mx-auto max-w-5xl px-4">
+        <div className="mx-auto max-w-4xl px-4">
           <div className="flex h-16 items-center justify-between">
             {/* Left: Search and Theme Toggle */}
-            <div className="flex items-center gap-4 flex-1">
-              <div className="relative w-full max-w-[200px] md:max-w-[260px]">
+            <div className="flex items-center gap-2 sm:gap-4 flex-1">
+              <div className="relative w-full max-w-[100px] sm:max-w-[200px] md:max-w-[260px]">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="search"
@@ -101,10 +101,10 @@ export default function Layout({ children }: LayoutProps) {
                 </>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Button variant="ghost" onClick={() => navigate("/login")}>
+                  <Button variant="ghost" onClick={() => navigate("/login")} className="px-2 sm:px-4">
                     Login
                   </Button>
-                  <Button onClick={() => navigate("/register")}>
+                  <Button onClick={() => navigate("/register")} className="px-3 sm:px-4">
                     Register
                   </Button>
                 </div>
@@ -112,9 +112,9 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           </div>
         </div>
-      </header>
+      </header >
 
-      <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
+      <main className="mx-auto max-w-4xl px-4 py-8">{children}</main>
     </div >
   );
 }
