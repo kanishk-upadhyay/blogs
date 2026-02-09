@@ -1,8 +1,7 @@
-import React, { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
-import { getRelativeTime } from "@/lib/date";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -84,7 +83,6 @@ export default function Layout({ children }: LayoutProps) {
                     <DropdownMenuContent align="end" className="w-56">
                       <div className="px-2 py-1.5 hidden sm:block">
                         <p className="text-sm font-medium">{user.username}</p>
-                        <p className="text-xs text-muted-foreground">{user.email}</p>
                       </div>
                       <DropdownMenuSeparator className="hidden sm:block" />
 
