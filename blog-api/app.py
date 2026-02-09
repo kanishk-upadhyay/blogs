@@ -88,7 +88,19 @@ def create_app() -> Flask:
         db.create_all()
 
     # CORS configuration - allow credentials for cookie-based auth
-    cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+    # Default to common development origins + github pages
+    default_origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173", 
+        "https://kanishk-upadhyay.github.io"
+    ]
+    
+    env_origins = os.getenv("CORS_ORIGINS")
+    if env_origins:
+        cors_origins = env_origins.split(",") + default_origins
+    else:
+        cors_origins = default_origins
+
     CORS(
         app,
         resources={r"/api/*": {"origins": cors_origins}},
