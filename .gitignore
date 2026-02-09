@@ -42,3 +42,8 @@ coverage
 # Temporary
 .npm-cache
 tmp/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
