@@ -50,7 +50,7 @@ export default function UserProfile() {
                 // Filter out drafts if looking at someone else's profile
                 const displayedPosts = userPosts.filter(p => p.published || (user?.username === username));
                 setPosts(displayedPosts);
-            } catch (e) {
+            } catch (e: unknown) {
                 const msg = getErrorMessage(e, "Failed to load user posts");
                 setError(msg);
                 toast.error(msg);
