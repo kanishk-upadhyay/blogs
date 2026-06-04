@@ -35,7 +35,7 @@ export default function EditPost() {
       try {
         const data = await getPost(slug);
         if (!cancelled) setPost(data);
-      } catch (err) {
+      } catch (err: unknown) {
         if (!cancelled)
           setLoadError(getErrorMessage(err, "Failed to load post"));
       } finally {

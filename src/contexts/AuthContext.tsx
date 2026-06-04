@@ -22,7 +22,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
             const data = await api.getCurrentUser();
             setUser(data.user);
-        } catch (error) {
+        } catch (error: unknown) {
             setUser(null);
         } finally {
             setLoading(false);

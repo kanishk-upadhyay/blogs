@@ -205,7 +205,7 @@ export default function PostForm({
         content: values.content,
         published: !!values.published,
       });
-    } catch (err) {
+    } catch (err: unknown) {
       setError(getErrorMessage(err, "Failed to save post"));
     } finally {
       setLocalSubmitting(false);
