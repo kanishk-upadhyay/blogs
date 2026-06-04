@@ -25,7 +25,7 @@ export default function Login() {
             await login(username, password, remember);
             toast.success("Welcome back!");
             navigate("/");
-        } catch (error: any) {
+        } catch (error: unknown) {
             const msg = getErrorMessage(error, "Login failed");
             toast.error(msg);
         } finally {
