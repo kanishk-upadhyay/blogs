@@ -42,7 +42,7 @@ export default function Register() {
             await register(username, password);
             toast.success("Account created successfully!");
             navigate("/");
-        } catch (error: any) {
+        } catch (error: unknown) {
             const msg = getErrorMessage(error, "Registration failed");
             toast.error(msg);
         } finally {
