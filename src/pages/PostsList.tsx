@@ -36,7 +36,7 @@ export default function PostsList() {
         // Always fetch only published posts as requested
         const data = await getPosts(true);
         setPosts(data);
-      } catch (e: any) {
+      } catch (e: unknown) {
         const msg = getErrorMessage(e, "Failed to load posts");
         setError(msg);
         toast.error(msg);
