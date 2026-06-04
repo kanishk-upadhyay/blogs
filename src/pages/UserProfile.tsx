@@ -70,7 +70,7 @@ export default function UserProfile() {
             setPostToDelete(null);
             // Refresh posts
             setPosts(posts.filter(p => p.id !== postToDelete.id));
-        } catch (e: any) {
+        } catch (e: unknown) {
             const msg = getErrorMessage(e, "Failed to delete post");
             toast.error(msg);
         }
@@ -84,7 +84,7 @@ export default function UserProfile() {
             setPostToUnpublish(null);
             // Update local state to reflect change
             setPosts(posts.map(p => p.id === postToUnpublish.id ? { ...p, published: false } : p));
-        } catch (e: any) {
+        } catch (e: unknown) {
             const msg = getErrorMessage(e, "Failed to unpublish");
             toast.error(msg);
         }
@@ -96,7 +96,7 @@ export default function UserProfile() {
             await updatePost(post.id, { published: newStatus });
             toast.success(newStatus ? "Published" : "Unpublished");
             setPosts(posts.map(p => p.id === post.id ? { ...p, published: newStatus } : p));
-        } catch (e: any) {
+        } catch (e: unknown) {
             const msg = getErrorMessage(e, "Failed to update post");
             toast.error(msg);
         }
