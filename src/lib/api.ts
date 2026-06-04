@@ -67,13 +67,13 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   if (!res.ok) {
     let message = `Request failed (${res.status} ${res.statusText})`;
     if (typeof data === "string" && data.trim()) {
-      message = data;
+      message = data.trim();
     } else if (typeof data === "object" && data !== null) {
       const obj = data as Record<string, unknown>;
       if (typeof obj.message === "string" && obj.message.trim()) {
-        message = obj.message;
+        message = obj.message.trim();
       } else if (typeof obj.error === "string" && obj.error.trim()) {
-        message = obj.error;
+        message = obj.error.trim();
       }
     }
     throw new Error(message);
