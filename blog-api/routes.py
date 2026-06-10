@@ -45,14 +45,16 @@ def list_posts():
         # Requesting drafts - apply security filter
         if current_user.is_authenticated:
             # Show all published posts AND my own drafts
-            query = query.filter((Post.published == True) | (Post.author_id == current_user.id))
+            query = query.filter(
+                (Post.published == True) | (Post.author_id == current_user.id)
+            )
         else:
             # Anonymous users can only see published posts, ignore 'published=false'
             query = query.filter_by(published=True)
 
     # Eager load author to prevent N+1 query problem
     query = query.options(joinedload(Post.author))
-    
+
     posts = query.order_by(desc(Post.published_at), desc(Post.created_at)).all()
     return jsonify([p.to_dict() for p in posts])
 
@@ -60,7 +62,7 @@ def list_posts():
 @api_bp.get("/posts/<slug>")
 def get_post(slug: str):
     """Get a single post by slug."""
-    post = Post.query.filter_by(slug=slug).first()
+    post = Post.query.options(joinedload(Post.author)).filter_by(slug=slug).first()
     if not post:
         abort(404, description="Post not found")
     return jsonify(post.to_dict())
@@ -100,11 +102,11 @@ def create_post():
 def update_post(post_id: int):
     """Update an existing post by id (requires authentication and ownership)."""
     post = Post.query.get_or_404(post_id)
-    
+
     # Check ownership - only author can edit their post
     if post.author_id != current_user.id:
         abort(403, description="Not authorized to edit this post")
-    
+
     data = request.get_json(silent=True) or {}
 
     # Disallow setting empty required fields
@@ -133,11 +135,11 @@ def update_post(post_id: int):
 def delete_post(post_id: int):
     """Delete a post by id (requires authentication and ownership)."""
     post = Post.query.get_or_404(post_id)
-    
+
     # Check ownership - only author can delete their post
     if post.author_id != current_user.id:
         abort(403, description="Not authorized to delete this post")
-    
+
     db.session.delete(post)
     db.session.commit()
     return jsonify({"deleted": True})
