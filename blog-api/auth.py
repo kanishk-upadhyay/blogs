@@ -27,8 +27,12 @@ def register():
     # Basic validation
     if len(data["password"]) < 8:
         abort(400, description="Password must be at least 8 characters")
+    if len(data["password"]) > 128:
+        abort(400, description="Password must be at most 128 characters")
     if len(data["username"]) < 3:
         abort(400, description="Username must be at least 3 characters")
+    if len(data["username"]) > 80:
+        abort(400, description="Username must be at most 80 characters")
 
     # Create user
     user = User(username=data["username"])
