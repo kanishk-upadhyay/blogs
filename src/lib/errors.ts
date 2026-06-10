@@ -60,11 +60,12 @@ function safeStringify(value: unknown): string {
     if (isObject(value)) {
       // Prefer a compact shape with known fields if present
       const known: AnyObject = {};
-      if ("message" in value) known.message = (value as AnyObject).message;
-      if ("code" in value) known.code = (value as AnyObject).code;
-      if ("name" in value) known.name = (value as AnyObject).name;
-      if ("status" in value) known.status = (value as AnyObject).status;
-      if ("statusText" in value) known.statusText = (value as AnyObject).statusText;
+      const obj = value as AnyObject;
+      if ("message" in value) known.message = obj.message;
+      if ("code" in value) known.code = obj.code;
+      if ("name" in value) known.name = obj.name;
+      if ("status" in value) known.status = obj.status;
+      if ("statusText" in value) known.statusText = obj.statusText;
       if (Object.keys(known).length) return JSON.stringify(known);
 
       // Fallback to JSON.stringify with circular ref handling
