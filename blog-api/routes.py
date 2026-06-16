@@ -63,6 +63,11 @@ def get_post(slug: str):
     post = Post.query.filter_by(slug=slug).first()
     if not post:
         abort(404, description="Post not found")
+
+    if not post.published:
+        if not current_user.is_authenticated or post.author_id != current_user.id:
+            abort(404, description="Post not found")
+
     return jsonify(post.to_dict())
 
 

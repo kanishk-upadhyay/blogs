@@ -56,8 +56,11 @@ const REMARK_PLUGINS = [remarkGfm, remarkBreaks];
 
 // Memoize components outside component
 const MARKDOWN_COMPONENTS: Components = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   h1: ({ node, ...props }) => <h1 className="text-3xl font-bold mb-4 mt-6" {...props} />,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   h2: ({ node, ...props }) => <h2 className="text-2xl font-bold mb-3 mt-5" {...props} />,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   h3: ({ node, ...props }) => <h3 className="text-xl font-bold mb-2 mt-4" {...props} />,
 };
 

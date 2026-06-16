@@ -26,7 +26,7 @@ export default function Layout({ children }: LayoutProps) {
       await logout();
       toast.success("Logged out successfully");
       navigate("/");
-    } catch (error) {
+    } catch {
       toast.error("Logout failed");
     }
   };
