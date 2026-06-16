@@ -47,7 +47,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   });
 
   // Attempt to parse body even on non-OK to surface server error messages
-  let data: any = null;
+  let data: unknown = null;
   const isJson =
     res.headers.get("content-type")?.includes("application/json") ?? false;
   if (isJson) {
@@ -65,12 +65,17 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   }
 
   if (!res.ok) {
-    const message =
-      typeof data === "string"
-        ? data
-        : data?.message ||
-          data?.error ||
-          `Request failed (${res.status} ${res.statusText})`;
+    let message = `Request failed (${res.status} ${res.statusText})`;
+    if (typeof data === "string" && data.trim()) {
+      message = data.trim();
+    } else if (typeof data === "object" && data !== null) {
+      const obj = data as Record<string, unknown>;
+      if (typeof obj.message === "string" && obj.message.trim()) {
+        message = obj.message.trim();
+      } else if (typeof obj.error === "string" && obj.error.trim()) {
+        message = obj.error.trim();
+      }
+    }
     throw new Error(message);
   }
 
